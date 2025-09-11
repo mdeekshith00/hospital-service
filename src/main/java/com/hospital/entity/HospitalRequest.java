@@ -36,11 +36,12 @@ public class HospitalRequest implements Serializable{
 
 	   @Id
 	    @GeneratedValue(generator = "UUID")
-	    @GenericGenerator(
-	        name = "UUID",
-	        strategy = "org.hibernate.id.UUIDGenerator"
-	    )
-	    private UUID requestId ;
+//	    @GenericGenerator(
+//	        name = "UUID",
+//	        strategy = "org.hibernate.id.UUIDGenerator"
+//	    )
+	   @Column(name = "request_id", updatable = false, nullable = false)
+	    private UUID requestId  = UUID.randomUUID();
 		
 		private String requestedBy; //  (staffId)
 
