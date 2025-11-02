@@ -1,7 +1,6 @@
 package com.hospital.enums;
 
 public enum ChangeType {
-
     CREATED,
     UPDATED,
     DELETED,

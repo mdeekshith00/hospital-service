@@ -1,26 +1,47 @@
 package com.hospital.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.hospital.enums.ChangeType;
 import com.hospital.enums.HistoryStatus;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class HospitalHistory {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = " hospital_history")
+public class HospitalHistory implements Serializable {
 
-	   @Id
+	   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	    @Column(name = "hspital_history_id")
+	    private Integer HospitalHistoryId;
 
 	    // Link to Hospital
 	    @Column(name = "hospital_id", nullable = false)
-	    private Long hospitalId;
+	    private Integer hospitalId;
 
 	    // Optional: Track user who made the change (could be admin)
 	    @Column(name = "changed_by_user_id")
@@ -56,7 +77,9 @@ public class HospitalHistory {
 	    @Column(name = "source_ip")
 	    private String sourceIp;
 
-	    // Optional: Add auditing info
 	    @Column(name = "created_at", updatable = false)
 	    private LocalDateTime createdAt = LocalDateTime.now();
+	    
+	    @Column(name = "updated_at", updatable = false)
+	    private LocalDateTime updatedAt = LocalDateTime.now();
 }
