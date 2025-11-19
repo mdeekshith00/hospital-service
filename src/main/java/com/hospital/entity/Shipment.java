@@ -1,13 +1,17 @@
 package com.hospital.entity;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,12 +29,16 @@ import lombok.Setter;
 @Entity
 @Builder
 @Table(name = "shipment")
-public class Shipment {
+public class Shipment implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
-	private UUID shipmentId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "shipment_id")
+	private Integer shipmentId;
 	@Column
 	private String fromLocation; // (hospitalId or central)
 	@Column
@@ -40,7 +48,7 @@ public class Shipment {
 	@Column
 	private String temperatureLog;
 	@Column
-	private String status; // (IN_TRANSIT, DELIVERED, FAILED)
+	private String status; 
 	@Column
 	private String carrierInfo;
 	
@@ -48,10 +56,12 @@ public class Shipment {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_hospital_id", nullable = false)
+	@JsonBackReference
 	private Hospital senderHospital;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receiver_hospital_id", nullable = false)
+	@JsonBackReference
 	private Hospital receiverHospital;
 
 }
